@@ -18,19 +18,16 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class Robot extends IterativeRobot {
 	private DifferentialDrive m_myRobot;
-	private Joystick m_leftStick;
-	private Joystick m_rightStick;
+	private Joystick m_myJoyStick;
 
 	@Override
 	public void robotInit() {
 		m_myRobot = new DifferentialDrive(new Spark(0), new Spark(1));
-		m_leftStick = new Joystick(0);
-		m_rightStick = new Joystick(1);
+		m_myJoyStick = new Joystick(0);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		//m_myRobot.tankDrive(m_leftStick.getY(), m_rightStick.getY());
-		m_myRobot.arcadeDrive(m_rightStick.getY(),m_rightStick.getX());
+		m_myRobot.arcadeDrive(m_myJoyStick.getY(),m_myJoyStick.getX());
 	}
 }
