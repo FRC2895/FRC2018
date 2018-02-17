@@ -9,13 +9,12 @@ package org.usfirst.frc.team2895.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-/**
- * This is a demo program showing the use of the RobotDrive class, specifically
- * it contains the code necessary to operate a robot with tank drive.
- */
+
 public class Robot extends IterativeRobot {
 	private DifferentialDrive m_myRobot;
 	private Joystick m_myJoyStick;
@@ -25,9 +24,24 @@ public class Robot extends IterativeRobot {
 		m_myRobot = new DifferentialDrive(new Spark(0), new Spark(1));
 		m_myJoyStick = new Joystick(0);
 	}
+	
+	@Override
+	public void autonomousPeriodic() {
+		super.autonomousPeriodic();
+		// TODO: Write Code for autonomous
+		
+	}
 
 	@Override
 	public void teleopPeriodic() {
-		m_myRobot.arcadeDrive(m_myJoyStick.getY(),m_myJoyStick.getX());
+		m_myRobot.setSafetyEnabled(true);
+		while (isOperatorControl() && isEnabled()) {
+			// Drive arcade style
+			
+			m_myRobot.arcadeDrive(-m_myJoyStick.getY(), -m_myJoyStick.getX());
+
+			// The motors will be updated every 5ms
+			Timer.delay(0.005);
+		}
 	}
 }
