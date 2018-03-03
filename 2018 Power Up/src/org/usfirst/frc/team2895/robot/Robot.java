@@ -12,17 +12,33 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive; 
 
 public class Robot extends IterativeRobot {
-	private DifferentialDrive m_myRobot;
-	private Joystick m_myJoyStick;
-
+	private DifferentialDrive m_driveTrain;
+	private Joystick m_joyStick;
+	private DifferentialDrive m_intake;
+	private DifferentialDrive m_shooter;
+	
+	public static class ButtonMap {
+		public int A = 0;
+		public int B = 1;
+		public int X = 2;
+		public int Y = 3;
+		public int LB = 4;
+		public int RB = 5;
+		public int Back = 6;
+		public int Start = 7;
+		public int L3 = 8;
+		public int R3 = 9;
+	}
+	
 	@Override
 	public void robotInit() {
-		m_myRobot = new DifferentialDrive(new Spark(0), new Spark(1));
-		m_myJoyStick = new Joystick(0);
+		m_driveTrain = new DifferentialDrive(new Spark(0), new Spark(1));
+		m_intake = new DifferentialDrive(new Spark(2), new Spark(3));
+		m_shooter = new DifferentialDrive(new Spark(4), new Spark(5));
+		m_joyStick = new Joystick(0);
 	}
 	
 	@Override
@@ -34,12 +50,15 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		m_myRobot.setSafetyEnabled(true);
+		m_driveTrain.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
-			// Drive arcade style
 			
-			m_myRobot.arcadeDrive(-m_myJoyStick.getY(), -m_myJoyStick.getX());
-
+			// Drive arcade style
+			m_driveTrain.arcadeDrive(-m_joyStick.getY(), m_joyStick.getX());
+			
+			// Intake
+			
+			
 			// The motors will be updated every 5ms
 			Timer.delay(0.005);
 		}
